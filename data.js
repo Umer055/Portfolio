@@ -52,6 +52,15 @@ const DEFAULT_SKILLS = [
   { id: 'sk-004', label: 'DFIR',              value: 80, color: 'accent', link: '' }
 ];
 
+const DEFAULT_CERTIFICATIONS = [
+  { id: 'cert-001', certId: 'CERT-2024-001', name: 'Google Cybersecurity Certificate', issuer: 'Google / Coursera', category: 'blue-team', status: 'active', date: 'October 2024', link: '', image: '',
+    overview: 'Professional-level certification covering threat detection, SIEM tools, incident response, and security operations fundamentals.',
+    details: ['Network security monitoring & IDS', 'SIEM operations with Chronicle & Splunk', 'Python scripting for security automation', 'Incident response playbooks & documentation'] },
+  { id: 'cert-002', certId: 'CERT-2024-002', name: 'Certified in Cybersecurity (CC)', issuer: 'ISC²', category: 'grc', status: 'active', date: 'August 2024', link: '', image: '',
+    overview: 'Entry-level certification from ISC² validating foundational knowledge of security principles, network security, and access controls.',
+    details: ['Security principles & risk management', 'Business continuity & disaster recovery', 'Access controls & identity management', 'Network security & infrastructure'] }
+];
+
 const DEFAULT_PROJECTS = [
   { id: 'proj-001', caseId: 'CASE-2025-001', name: 'SkyCheck', category: 'cloud', severity: 'critical', status: 'active', indicator: 'active', 
     overview: 'Multi-cloud compliance assessment tool (AWS, Azure, GCP). Automates control checks against ISO 27001, NIST, GDPR, FedRAMP — eliminating manual audit bottlenecks.',
@@ -119,4 +128,4 @@ const DEFAULT_OPERATOR_LOADOUT = [
   }
 ];
 
-const KEYS = { posts: 'uf_posts', experience: 'uf_experience', achievements: 'uf_achievements', skills: 'uf_skills', projects: 'uf_projects', operatorLoadout: 'uf_operator_loadout' };
+const KEYS = { posts: 'uf_posts', experience: 'uf_experience', achievements: 'uf_achievements', skills: 'uf_skills', projects: 'uf_projects', operatorLoadout: 'uf_operator_loadout', certifications: 'uf_certifications' };

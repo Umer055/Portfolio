@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blogs // Umar Farooq</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
 
   <!-- LOGIN MODAL (same as index) -->
   <div class="login-overlay" id="loginOverlay" style="display:none">
     <div class="login-modal">
-      <div class="login-header"><div class="login-logo">⬡</div><h2>ADMIN ACCESS</h2><p>Authenticated admin shell</p></div>
+      <div class="login-header">
+        <div class="login-logo">⬡</div>
+        <h2>ADMIN ACCESS</h2>
+        <p>Authenticated admin shell</p>
+      </div>
       <div class="login-form">
-        <div class="lf-field"><label>USERNAME</label><input type="text" value="umar" readonly class="lf-input"/></div>
-        <div class="lf-field"><label>PASSWORD</label><input type="password" id="loginPass" class="lf-input" placeholder="Enter password" autocomplete="current-password"/></div>
+        <div class="lf-field"><label>USERNAME</label><input type="text" value="umar" readonly class="lf-input" /></div>
+        <div class="lf-field"><label>PASSWORD</label><input type="password" id="loginPass" class="lf-input"
+            placeholder="Enter password" autocomplete="current-password" /></div>
         <div class="lf-error" id="loginError" style="display:none">ACCESS DENIED — Invalid credentials</div>
         <button class="btn-primary lf-submit" onclick="doLogin()">AUTHENTICATE</button>
         <button class="btn-secondary lf-cancel" onclick="closeLoginModal()">CANCEL</button>
@@ -36,8 +45,8 @@
     <div class="ad-tab-content active" id="tab-blog">
       <h3 class="ad-section-title">Manage Blog Reports</h3>
       <div class="np-form">
-        <input type="hidden" id="editPostId"/>
-        <input type="text" id="npTitle" placeholder="Report Title" class="np-input"/>
+        <input type="hidden" id="editPostId" />
+        <input type="text" id="npTitle" placeholder="Report Title" class="np-input" />
         <div class="np-row">
           <select id="npCategory" class="np-input">
             <option value="ctf">CTF WRITEUP</option>
@@ -46,10 +55,11 @@
             <option value="malware">MALWARE</option>
             <option value="research">RESEARCH</option>
           </select>
-          <input type="text" id="npDate" placeholder="Date" class="np-input"/>
+          <input type="text" id="npDate" placeholder="Date" class="np-input" />
         </div>
-        <input type="text" id="npExcerpt" placeholder="Short description" class="np-input"/>
-        <textarea id="npContent" placeholder="Content: **bold**, `code`, ## heading, - list" class="np-textarea" rows="10"></textarea>
+        <input type="text" id="npExcerpt" placeholder="Short description" class="np-input" />
+        <textarea id="npContent" placeholder="Content: **bold**, `code`, ## heading, - list" class="np-textarea"
+          rows="10"></textarea>
         <div class="np-actions">
           <button class="btn-primary" onclick="publishPost()">PUBLISH</button>
           <button class="btn-secondary" onclick="clearPostForm()">CLEAR</button>
@@ -61,11 +71,12 @@
 
   <!-- NAV -->
   <nav id="navbar">
-    <div class="nav-brand"><a href="index.html" style="text-decoration:none"><span class="nav-prompt">root@umar:~$</span><span class="nav-cursor">_</span></a></div>
+    <div class="nav-brand"><a href="index.html" style="text-decoration:none"><span
+          class="nav-prompt">root@umar:~$</span><span class="nav-cursor">_</span></a></div>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html#about">ABOUT</a></li>
-      <li><a href="index.html#experience">TIMELINE</a></li>
-      <li><a href="index.html#projects">CASES</a></li>
+      <li><a href="index.html#experience">EXPERIENCE</a></li>
+      <li><a href="index.html#projects">PROJECTS</a></li>
       <li><a href="index.html#skills">SKILLS</a></li>
       <li><a href="index.html#achievements">AWARDS</a></li>
       <li><a href="blog.html" class="nav-active">BLOGS</a></li>
@@ -93,7 +104,8 @@
       <div class="blog-page-header">
         <div class="section-label">// BLOG POSTS</div>
         <h1 class="blog-page-title">Field Notes &amp; Writeups</h1>
-        <p class="section-desc">CTF writeups, threat research, GRC insights, and security deep-dives. Raw analysis from the field.</p>
+        <p class="section-desc">CTF writeups, threat research, GRC insights, and security deep-dives. Raw analysis from
+          the field.</p>
       </div>
       <div class="blog-filter-bar">
         <button class="blog-filter active" data-filter="all" onclick="filterBlog('all', this)">ALL</button>
@@ -142,4 +154,5 @@
   <script src="script.js"></script>
   <script src="blog.js"></script>
 </body>
+
 </html>

@@ -203,6 +203,14 @@ section{padding:5rem 4rem;border-top:1px solid var(--border-dim)}
 .cat-tag{font-size:.6rem;letter-spacing:.08em;padding:2px 8px;border-radius:2px}
 .cat-tag.cloud{background:rgba(0,200,255,.1);color:var(--accent);border:1px solid var(--accent-dim)}
 .cat-tag.offense{background:rgba(255,71,87,.1);color:var(--red);border:1px solid var(--red-dim)}
+.cat-tag.blue-team{background:rgba(0,200,255,.08);color:var(--accent);border:1px solid var(--accent-dim)}
+.cat-tag.grc{background:rgba(0,230,118,.1);color:var(--green);border:1px solid var(--green-dim)}
+.cat-tag.dfir{background:rgba(255,171,64,.1);color:var(--amber);border:1px solid var(--amber-dim)}
+.cat-tag.ctf{background:rgba(200,146,234,.1);color:#c792ea;border:1px solid #c792ea60}
+.cat-tag.dev{background:rgba(128,128,128,.1);color:var(--text-dim);border:1px solid var(--border)}
+.btn-outline-sm{display:inline-flex;align-items:center;padding:.4rem 1rem;background:transparent;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.08em;border:1px solid var(--accent-dim);border-radius:3px;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-outline-sm:hover{background:rgba(0,200,255,.08);border-color:var(--accent)}
+
 .sev{font-size:.65rem;letter-spacing:.08em;padding:2px 8px;border-radius:2px;font-weight:700}
 .sev.critical{background:rgba(255,71,87,.15);color:var(--red)}
 .sev.high{background:rgba(255,171,64,.15);color:var(--amber)}

@@ -506,7 +506,90 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-/* ── Skills/Operator Loadout Rendering ── */
+/* ── Certifications Rendering ── */
+function renderCertifications() {
+  const container = document.getElementById('certificationsContainer');
+  if (!container) return;
+
+  let certs = [];
+  try {
+    const stored = localStorage.getItem(KEYS.certifications);
+    if (stored) certs = JSON.parse(stored);
+  } catch(e) { console.error('Error loading certifications:', e); }
+  if (!certs.length && typeof DEFAULT_CERTIFICATIONS !== 'undefined') certs = DEFAULT_CERTIFICATIONS;
+  if (!certs || !certs.length) return;
+
+  container.innerHTML = '';
+
+  const categoryLabels = {
+    'blue-team': 'BLUE TEAM',
+    'grc': 'GRC',
+    'offense': 'OFFENSE',
+    'cloud': 'CLOUD',
+    'dfir': 'DFIR',
+    'dev': 'DEVELOPMENT'
+  };
+
+  certs.forEach((cert, idx) => {
+    const domId = `cert${idx + 1}`;
+    const catLabel = categoryLabels[cert.category] || cert.category.toUpperCase();
+    const statusBadge = cert.status === 'active'
+      ? '<span class="status-badge active">ACTIVE</span>'
+      : '<span class="status-badge" style="color:var(--text-muted);border-color:var(--border)">EXPIRED</span>';
+    const indicatorClass = cert.status === 'active' ? 'active-indicator' : 'resolved-indicator';
+
+    const imageBlock = cert.image
+      ? `<div class="report-section"><span class="report-label">CERTIFICATE</span>
+           <div style="margin-top:.5rem;border-radius:4px;overflow:hidden;border:1px solid var(--border);max-width:480px">
+             <img src="${escapeHtml(cert.image)}" alt="${escapeHtml(cert.name)}" loading="lazy" style="width:100%;display:block" onerror="this.parentElement.style.display='none'"/>
+           </div>
+         </div>` : '';
+
+    const linkBlock = cert.link
+      ? `<div style="margin-top:.8rem"><a href="${escapeHtml(cert.link)}" target="_blank" rel="noopener noreferrer" class="btn-outline-sm">↗ VIEW CREDENTIAL</a></div>`
+      : '';
+
+    const html = `
+      <div class="case-item" id="${domId}">
+        <div class="case-row" onclick="toggleCase('${domId}')">
+          <div class="ap-col case-id">${escapeHtml(cert.certId)}</div>
+          <div class="ap-col case-name"><span class="case-indicator ${indicatorClass}"></span>${escapeHtml(cert.name)}</div>
+          <div class="ap-col"><span class="cat-tag ${cert.category}">${catLabel}</span></div>
+          <div class="ap-col"><span class="cat-tag" style="color:var(--text-dim);border-color:var(--border)">${escapeHtml(cert.issuer)}</span></div>
+          <div class="ap-col">${statusBadge}</div>
+          <span class="expand-arrow">▼</span>
+        </div>
+        <div class="case-details">
+          <div class="case-report">
+            <div class="report-section"><span class="report-label">OVERVIEW</span>
+              <p>${escapeHtml(cert.overview || '')}</p>
+            </div>
+            <div class="report-grid">
+              <div class="report-section"><span class="report-label">TOPICS COVERED</span>
+                <ul class="report-list">
+                  ${(cert.details || []).map(d => `<li>${escapeHtml(d)}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="report-section"><span class="report-label">DATE ISSUED</span>
+                <p>${escapeHtml(cert.date || '')}</p>
+              </div>
+            </div>
+            ${imageBlock}
+            ${linkBlock}
+          </div>
+        </div>
+      </div>`;
+    container.insertAdjacentHTML('beforeend', html);
+  });
+
+  // Wire scroll reveal for new elements
+  container.querySelectorAll('.case-item').forEach(el => {
+    el.classList.add('reveal');
+    revObs.observe(el);
+  });
+}
+
+
 function renderOperatorLoadout() {
   const skillsSection = document.getElementById('skills');
   if (!skillsSection) return;
@@ -591,6 +674,7 @@ function initGlobeInteraction() {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderProjects();
+  renderCertifications();
   renderOperatorLoadout();
   renderTimeline();
   renderAchievements();

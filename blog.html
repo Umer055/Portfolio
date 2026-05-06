@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blogs // Umar Farooq</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- LOGIN MODAL (same as index) -->
+  <div class="login-overlay" id="loginOverlay" style="display:none">
+    <div class="login-modal">
+      <div class="login-header"><div class="login-logo">⬡</div><h2>ADMIN ACCESS</h2><p>Authenticated admin shell</p></div>
+      <div class="login-form">
+        <div class="lf-field"><label>USERNAME</label><input type="text" value="umar" readonly class="lf-input"/></div>
+        <div class="lf-field"><label>PASSWORD</label><input type="password" id="loginPass" class="lf-input" placeholder="Enter password" autocomplete="current-password"/></div>
+        <div class="lf-error" id="loginError" style="display:none">ACCESS DENIED — Invalid credentials</div>
+        <button class="btn-primary lf-submit" onclick="doLogin()">AUTHENTICATE</button>
+        <button class="btn-secondary lf-cancel" onclick="closeLoginModal()">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DRAWER (blog management only on this page) -->
+  <div class="admin-drawer" id="adminDrawer" style="display:none">
+    <div class="ad-header">
+      <span class="ad-title">⬡ BLOG REPORTS ADMIN</span>
+      <div class="ad-header-actions">
+        <button class="btn-logout" onclick="doLogout()">LOGOUT</button>
+        <button class="ad-close" onclick="closeAdminDrawer()">✕</button>
+      </div>
+    </div>
+    <div class="ad-tab-content active" id="tab-blog">
+      <h3 class="ad-section-title">Manage Blog Reports</h3>
+      <div class="np-form">
+        <input type="hidden" id="editPostId"/>
+        <input type="text" id="npTitle" placeholder="Report Title" class="np-input"/>
+        <div class="np-row">
+          <select id="npCategory" class="np-input">
+            <option value="ctf">CTF WRITEUP</option>
+            <option value="dfir">DFIR</option>
+            <option value="grc">GRC</option>
+            <option value="malware">MALWARE</option>
+            <option value="research">RESEARCH</option>
+          </select>
+          <input type="text" id="npDate" placeholder="Date" class="np-input"/>
+        </div>
+        <input type="text" id="npExcerpt" placeholder="Short description" class="np-input"/>
+        <textarea id="npContent" placeholder="Content: **bold**, `code`, ## heading, - list" class="np-textarea" rows="10"></textarea>
+        <div class="np-actions">
+          <button class="btn-primary" onclick="publishPost()">PUBLISH</button>
+          <button class="btn-secondary" onclick="clearPostForm()">CLEAR</button>
+        </div>
+      </div>
+      <div class="ad-list" id="adminPostList"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-brand"><a href="index.html" style="text-decoration:none"><span class="nav-prompt">root@umar:~$</span><span class="nav-cursor">_</span></a></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#about">ABOUT</a></li>
+      <li><a href="index.html#experience">TIMELINE</a></li>
+      <li><a href="index.html#projects">CASES</a></li>
+      <li><a href="index.html#skills">SKILLS</a></li>
+      <li><a href="index.html#achievements">AWARDS</a></li>
+      <li><a href="blog.html" class="nav-active">BLOGS</a></li>
+      <li><a href="index.html#contact">CONTACT</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">◑</button>
+      <button class="admin-btn" id="adminNavBtn" onclick="openLoginModal()" title="Admin Login">⬡</button>
+      <div class="nav-status"><span class="status-dot"></span><span class="status-text">ONLINE</span></div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- THREAT TICKER -->
+  <div id="threat-ticker">
+    <span class="ticker-label">LIVE FEED</span>
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <!-- BLOG PAGE CONTENT -->
+  <div class="blog-page-wrapper">
+
+    <!-- Blog list view -->
+    <div id="blogListView">
+      <div class="blog-page-header">
+        <div class="section-label">// BLOG POSTS</div>
+        <h1 class="blog-page-title">Field Notes &amp; Writeups</h1>
+        <p class="section-desc">CTF writeups, threat research, GRC insights, and security deep-dives. Raw analysis from the field.</p>
+      </div>
+      <div class="blog-filter-bar">
+        <button class="blog-filter active" data-filter="all" onclick="filterBlog('all', this)">ALL</button>
+        <button class="blog-filter" data-filter="ctf" onclick="filterBlog('ctf', this)">CTF WRITEUP</button>
+        <button class="blog-filter" data-filter="dfir" onclick="filterBlog('dfir', this)">DFIR</button>
+        <button class="blog-filter" data-filter="grc" onclick="filterBlog('grc', this)">GRC</button>
+        <button class="blog-filter" data-filter="malware" onclick="filterBlog('malware', this)">MALWARE</button>
+        <button class="blog-filter" data-filter="research" onclick="filterBlog('research', this)">RESEARCH</button>
+      </div>
+      <div class="blog-full-grid" id="blogFullGrid"></div>
+    </div>
+
+    <!-- Single post view -->
+    <div id="blogPostView" style="display:none">
+      <div class="post-nav">
+        <button class="btn-secondary post-back" onclick="showBlogList()">← BACK TO REPORTS</button>
+        <span class="post-nav-label" id="postNavLabel"></span>
+      </div>
+      <article class="post-article">
+        <div class="post-header">
+          <span class="blog-card-cat" id="postCat"></span>
+          <h1 id="postTitle"></h1>
+          <div class="post-meta">
+            <span id="postDate"></span>
+          </div>
+        </div>
+        <div class="post-body" id="postBody"></div>
+      </article>
+      <div class="post-footer">
+        <button class="btn-secondary" onclick="showBlogList()">← BACK TO ALL REPORTS</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">UMAR FAROOQ // CYBERSECURITY</span>
+      <span class="footer-copy">Built without templates. Powered by curiosity.</span>
+      <span class="footer-right">2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script src="blog.js"></script>
+</body>
+</html>
